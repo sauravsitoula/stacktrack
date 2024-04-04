@@ -14,7 +14,8 @@ exports.createItem = async (req, res, next) => {
 
 exports.getAllItems = async (req, res, next) => {
   try {
-    const items = await service.getAllItems();
+    const query = req.query;
+    const items = await service.getAllItems(query);
     res.send(items);
   } catch (error) {
     next(error);

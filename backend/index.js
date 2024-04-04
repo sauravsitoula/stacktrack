@@ -13,9 +13,6 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
-app.use((req, res, next) => {
-  res.send("hehe");
-});
 
 // app.use("/auth", authRoutes);
 // app.use(validateToken);
