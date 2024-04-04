@@ -1,0 +1,26 @@
+const express = require("express");
+const userController = require("../controllers/user.controller");
+const router = express.Router();
+const loginValidator = require("../validators/login.validator");
+const registrationValidator = require("../validators/registration.validator");
+
+router.post(
+  "/register-user",
+  registrationValidator,
+  userController.registerUser
+);
+router.post(
+  "/register-admin",
+  registrationValidator,
+  userController.registerAdmin
+);
+router.post(
+  "/register-user",
+  registrationValidator,
+  userController.registerUser
+);
+router.post("/login", loginValidator, userController.login);
+router.get("/refresh", userController.refresh);
+router.post("/logout", userController.logout);
+
+module.exports = router;
