@@ -13,6 +13,18 @@ exports.addToCart = async (req, res, next) => {
   }
 };
 
+exports.checkout = async (req, res, next) => {
+  try {
+    const cart = await service.checkout(req.user.uuid);
+    res.status(201).json({
+      message: "Cart checked out successfully",
+      cart: cart,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 exports.getCartByUserId = async (req, res, next) => {
   try {
     const categories = await service.getCartByUserId(req.user.uuid);

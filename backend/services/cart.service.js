@@ -16,6 +16,31 @@ module.exports.addToCart = async (userId, cartDetails) => {
   }
 };
 
+module.exports.checkout = async (userId) => {
+  try {
+    const cart = await cartRepository.getCartByUserId(userId);
+    if (!cart) throw new Error("No cart associated with user " + userId);
+    const items = await cartItemRepository.getAllCartItemsByCartId(cart.uuid);
+    this.verifyStockAvailability(items);
+    for (const item of items) {
+      var itemToUpdate = await itemRepository.getItemById(item.item_uuid);
+      if (!itemToUpdate)
+        throw new Error("Item with id " + item.item_uuid + " not found");
+      var updatedQuantity = itemToUpdate.quantity - item.quantity;
+      var updatingItem = {
+        ...itemToUpdate.dataValues,
+        quantity: updatedQuantity,
+      };
+      itemToUpdate.quantity = updatedQuantity;
+      await itemRepository.updateItemById(item.item_uuid, updatingItem);
+    }
+    await this.deleteCartByUserId(userId);
+    return { cartDetails: cart, cartItems: items };
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports.getCartByUserId = async (id) => {
   try {
     const cart = await cartRepository.getCartByUserId(id);
@@ -31,7 +56,7 @@ module.exports.deleteCartByUserId = async (id) => {
   try {
     const cart = await cartRepository.getCartByUserId(id);
     if (!cart) {
-      throw new Error("No cart found associated with user");
+      throw new Error("No cart found associated with user " + id);
     }
     await cartItemRepository.deleteAllCartItemsByCartId(cart.uuid);
     await cartRepository.deleteCartById(cart.uuid);
