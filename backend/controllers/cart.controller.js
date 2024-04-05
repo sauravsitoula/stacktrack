@@ -2,6 +2,7 @@ const service = require("../services/cart.service");
 
 exports.addToCart = async (req, res, next) => {
   try {
+    await service.verifyStockAvailability(req.body.cartItems);
     const cart = await service.addToCart(req.user.uuid, req.body);
     res.status(201).json({
       message: "Cart created successfully",

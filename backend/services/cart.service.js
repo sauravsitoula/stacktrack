@@ -1,5 +1,6 @@
 const cartRepository = require("../repositories/cart.repository");
 const cartItemRepository = require("../repositories/cartItem.repository");
+const itemRepository = require("../repositories/item.repository");
 
 module.exports.addToCart = async (userId, cartDetails) => {
   try {
@@ -11,7 +12,7 @@ module.exports.addToCart = async (userId, cartDetails) => {
     );
     return cart;
   } catch (error) {
-    throw new Error(error);
+    throw error;
   }
 };
 
@@ -34,6 +35,29 @@ module.exports.deleteCartByUserId = async (id) => {
     }
     await cartItemRepository.deleteAllCartItemsByCartId(cart.uuid);
     await cartRepository.deleteCartById(cart.uuid);
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports.verifyStockAvailability = async (items) => {
+  try {
+    for (const item of items) {
+      var item_uuid = item.item_uuid;
+      var toValidateItem = await itemRepository.getItemById(item_uuid);
+      if (!toValidateItem) {
+        throw new Error(
+          "The item with id " + item_uuid + " is not available in the shop"
+        );
+      }
+      if (item.quantity > toValidateItem.quantity) {
+        throw new Error(
+          "Item with id " +
+            item_uuid +
+            " is not available in requested quantity"
+        );
+      }
+    }
   } catch (error) {
     throw error;
   }
