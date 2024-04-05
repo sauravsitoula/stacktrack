@@ -2,7 +2,7 @@ const service = require("../services/cart.service");
 
 exports.addToCart = async (req, res, next) => {
   try {
-    const cart = await service.addToCart(req.body);
+    const cart = await service.addToCart(req.user.uuid, req.body);
     res.status(201).json({
       message: "Cart created successfully",
       cart: cart,
@@ -24,6 +24,7 @@ exports.getCartByUserId = async (req, res, next) => {
 exports.deleteCartByUserId = async (req, res, next) => {
   try {
     await service.deleteCartByUserId(req.user.uuid);
+    res.send("Cart deleted successfully");
   } catch (error) {
     next(error);
   }

@@ -29,7 +29,7 @@ exports.validateRole = (roles) => {
           return;
         }
       } else if (role === "admin") {
-        if (req.user.isAdmin) {
+        if (req?.user?.isAdmin) {
           isAuthorized = true;
           return;
         }

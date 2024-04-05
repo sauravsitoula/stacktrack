@@ -11,7 +11,7 @@ module.exports.create = async (cartItemsDetails) => {
 module.exports.getAllCartItemsByCartId = async (id) => {
   try {
     const cartItems = await CartItems.findAll({
-      where: { uuid: id },
+      where: { cart_uuid: id },
     });
     return cartItems;
   } catch (error) {

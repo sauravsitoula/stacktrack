@@ -17,13 +17,6 @@ module.exports = (sequelize) => {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
       },
-      userRole: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notEmpty: true,
-        },
-      },
       userName: {
         type: DataTypes.STRING,
         allowNull: false,

@@ -35,7 +35,7 @@ exports.getItemById = async (req, res, next) => {
 exports.deleteItemById = async (req, res, next) => {
   try {
     const { id } = req.params;
-    service.deleteItemById(id);
+    await service.deleteItemById(id);
     res.send({ message: "Item deleted successfully" });
   } catch (error) {
     next(error);

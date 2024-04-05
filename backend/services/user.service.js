@@ -5,8 +5,6 @@ const userRepository = require("../repositories/user.repository");
 
 exports.registerUser = async (userData) => {
   try {
-    userData.isAdmin = false;
-    userData.isSuperAdmin = false;
     const user = await userRepository.getUserByEmail(userData.email);
     if (user != null) {
       throw new Error("user with given email is already registered");
@@ -23,6 +21,8 @@ exports.registerUser = async (userData) => {
         phoneNumber: userData.phoneNumber,
         password: hashed,
         address: userData.address,
+        isSuperAdmin: false,
+        isAdmin: false,
       });
     });
   } catch (err) {
@@ -32,8 +32,6 @@ exports.registerUser = async (userData) => {
 
 exports.registerAdmin = async (userData) => {
   try {
-    userData.isSuperAdmin = false;
-    userData.isAdmin = true;
     const user = await userRepository.getUserByEmail(userData.email);
     if (user != null) {
       throw new Error("user with given email is already registered");
@@ -50,6 +48,8 @@ exports.registerAdmin = async (userData) => {
         phoneNumber: userData.phoneNumber,
         password: hashed,
         address: userData.address,
+        isSuperAdmin: false,
+        isAdmin: true,
       });
     });
   } catch (err) {

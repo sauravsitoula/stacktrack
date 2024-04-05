@@ -1,12 +1,14 @@
 const cartRepository = require("../repositories/cart.repository");
 const cartItemRepository = require("../repositories/cartItem.repository");
 
-module.exports.addToCart = async (cartDetails) => {
+module.exports.addToCart = async (userId, cartDetails) => {
   try {
-    const cart = await cartRepository.getCartByUserId(req.user.uuid);
-    if (!cart) cart = await cartRepository.create({ user_uuid: req.user.uuid });
+    var cart = await cartRepository.getCartByUserId(userId);
+    if (!cart) cart = await cartRepository.create({ user_uuid: userId });
     cartItemRepository.deleteAllCartItemsByCartId(cart.uuid);
-    cartDetails.cartItems.forEach((item) => cartItemRepository.create(item));
+    cartDetails.cartItems.forEach((item) =>
+      cartItemRepository.create({ ...item, cart_uuid: cart.uuid })
+    );
     return cart;
   } catch (error) {
     throw new Error(error);
@@ -16,16 +18,17 @@ module.exports.addToCart = async (cartDetails) => {
 module.exports.getCartByUserId = async (id) => {
   try {
     const cart = await cartRepository.getCartByUserId(id);
+    if (!cart) throw new Error("No cart associated with user");
     const items = await cartItemRepository.getAllCartItemsByCartId(cart.uuid);
-    return { ...cart, cartItems: items };
+    return { cartDetails: cart, cartItems: items };
   } catch (error) {
     throw error;
   }
 };
 
-module.exports.deleteCartByUserId = async () => {
+module.exports.deleteCartByUserId = async (id) => {
   try {
-    const cart = await cartRepository.getCartByUserId();
+    const cart = await cartRepository.getCartByUserId(id);
     if (!cart) {
       throw new Error("No cart found associated with user");
     }
