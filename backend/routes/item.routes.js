@@ -11,6 +11,7 @@ router.post(
   createItemValidator,
   itemController.createItem
 );
+router.get("/search", itemController.searchItems);
 
 router.get("/", itemController.getAllItems);
 
