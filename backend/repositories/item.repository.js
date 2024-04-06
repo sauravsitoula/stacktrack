@@ -19,7 +19,7 @@ module.exports.getAllItems = async () => {
 
 module.exports.getAllItemsWithFilter = async (filter) => {
   try {
-    const items = await Items.findAll(filter);
+    const items = await Items.findAll({ where: filter });
     return items;
   } catch (error) {
     throw error;
