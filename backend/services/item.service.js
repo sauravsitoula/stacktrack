@@ -23,7 +23,9 @@ module.exports.getAllItems = async (params) => {
   try {
     var category = params.category;
     if (category != null) {
-      const res = await itemRepository.getAllItems({ category });
+      const res = await itemRepository.getAllItemsWithFilter({
+        category_uuid: category,
+      });
       return res;
     } else {
       const res = await itemRepository.getAllItems();
