@@ -1,6 +1,6 @@
 import { FormEvent } from 'react'
 import { useRouter } from 'next/router'
-import CustomAppBar from '@/app/customAppBar'
+import CustomAppBar from '@/componets/customAppBar'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -12,16 +12,16 @@ export default function LoginPage() {
     const email = formData.get('email')
     const password = formData.get('password')
 
-    const response = await fetch('/api/auth/login', {
+    const response = await fetch('https://3.138.201.84:3000/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
     })
 
     if (response.ok) {
-      router.push('/profile')
+      router.push('/')
     } else {
-      // Handle errors
+      console.log(response)
     }
   }
 

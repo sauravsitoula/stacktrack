@@ -1,6 +1,6 @@
 import { FormEvent } from 'react'
 import { useRouter } from 'next/router'
-import CustomAppBar from '@/app/customAppBar'
+import CustomAppBar from '@/componets/customAppBar'
 
 export default function RegisterPage() {
   const router = useRouter()
@@ -16,7 +16,7 @@ export default function RegisterPage() {
     const password = formData.get('password')
     const address = formData.get('address')
 
-    const response = await fetch('/api/auth/register', {
+    const response = await fetch('https://3.138.201.84:3000/auth/register-user', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ userName, imageURL, email, phoneNumber, password, address }),
