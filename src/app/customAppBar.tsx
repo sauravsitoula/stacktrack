@@ -5,6 +5,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
+import Link from 'next/link'
 
 export default function ButtonAppBar() {
   return (
@@ -22,8 +23,12 @@ export default function ButtonAppBar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           StackTrack
           </Typography>
-          <Button color="inherit">Login</Button>
-          <Button color="inherit">Register</Button>
+          <Button color="inherit">
+            <Link href="/login" style={{ textDecoration: 'none', color: 'white' }}>Login</Link>
+          </Button>
+          <Button color="inherit">
+            <Link href="/register" style={{ textDecoration: 'none', color: 'white' }}>Register</Link>
+          </Button>
         </Toolbar>
       </AppBar>
     </Box>
