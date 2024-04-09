@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { Box, Button, Card, Link, Typography } from '@mui/material';
 import {ItemDataProps} from '../pages/_app'
+import Placeholder from '../../public/placeholder.jpg'
 
 interface ItemParams {
     itemData: ItemDataProps | null;
@@ -16,7 +17,7 @@ export default function Item({ itemData, userLevel, context }: ItemParams) {
                     context === 'single'
                     ?
                     <Image
-                        src={itemData?.image_url || ''}
+                        src={Placeholder}
                         alt={itemData?.name || ''}
                         width={200}
                         height={200}
@@ -24,7 +25,7 @@ export default function Item({ itemData, userLevel, context }: ItemParams) {
                     :
                     <Link href={"/items/" + itemData?.uuid} >
                         <Image
-                            src={itemData?.image_url || ''}
+                            src={Placeholder}
                             alt={itemData?.name || ''}
                             width={200}
                             height={200}

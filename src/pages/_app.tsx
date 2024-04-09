@@ -1,5 +1,5 @@
 import type { AppProps } from 'next/app'
-import { createContext, useState } from 'react'
+import { createContext, useState, useEffect } from 'react'
 
 export interface UserProps {
     uuid?: string;
@@ -35,8 +35,18 @@ interface UserContextParams {
 export const UserContext = createContext<UserContextParams>({user: null, token: ''})
 
 export default function MyApp({ Component, pageProps }: AppProps) {
-    const [user, setUser] = useState({userName: 'Nino'})
+    const [user, setUser] = useState(null)
     const [token, setToken] = useState('')
+
+    useEffect(() => {
+        let localUser = localStorage?.getItem('user')
+        setUser(localUser ? JSON.parse(localUser) : null)
+
+        setToken(localStorage.getItem('token') || '')
+    }, [])
+
+
+
     const userContextValue = {
         user,
         setUser,

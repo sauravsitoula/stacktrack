@@ -12,10 +12,12 @@ export default function ButtonAppBar() {
   const { user, setUser, token, setToken } = useContext(UserContext);
 
   async function logout() {
-    setUser({});
+    setUser();
     setToken('');
 
-    const response = await fetch('http://3.138.201.84:3000/auth/logout', {
+    localStorage.clear()
+
+    const response = await fetch('http://18.118.122.21:3000/auth/logout', {
       method: 'POST',
     })
   }
@@ -38,7 +40,7 @@ export default function ButtonAppBar() {
             </Link>
           </Typography>
           {
-            token === '' ?
+            user === null || token === '' ?
             <Button color="inherit">
               <Link href="/login" style={{ textDecoration: 'none', color: 'white' }}>Login</Link>
             </Button>
