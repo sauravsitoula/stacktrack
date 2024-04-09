@@ -1,6 +1,6 @@
 import { FormEvent } from 'react'
 import { useRouter } from 'next/router'
-import CustomAppBar from '@/componets/customAppBar'
+import RootLayout from '../../componets/layout'
 
 export default function RegisterPage() {
   const router = useRouter()
@@ -30,8 +30,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <>
-    <CustomAppBar/>
+  <RootLayout>
     <form onSubmit={handleSubmit}>
       <input type="userName" name="userName" placeholder="User Name" required />
       <input type="imageURL" name="imageURL" placeholder="Image URL"/>
@@ -41,6 +40,6 @@ export default function RegisterPage() {
       <input type="address" name="address" placeholder="Address" required />
       <button type="submit">Register</button>
     </form>
-  </>
+  </RootLayout>
   )
 }

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import {useContext} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -6,8 +6,20 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Link from 'next/link'
+import { UserContext } from '../pages/_app'
 
 export default function ButtonAppBar() {
+  const { user, setUser, token, setToken } = useContext(UserContext);
+
+  async function logout() {
+    setUser({});
+    setToken('');
+
+    const response = await fetch('http://3.138.201.84:3000/auth/logout', {
+      method: 'POST',
+    })
+  }
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -21,11 +33,18 @@ export default function ButtonAppBar() {
           >
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          StackTrack
+            <Link href="/" style={{ textDecoration: 'none', color: 'white' }}>
+              StackTrack
+            </Link>
           </Typography>
-          <Button color="inherit">
-            <Link href="/login" style={{ textDecoration: 'none', color: 'white' }}>Login</Link>
-          </Button>
+          {
+            token === '' ?
+            <Button color="inherit">
+              <Link href="/login" style={{ textDecoration: 'none', color: 'white' }}>Login</Link>
+            </Button>
+            :
+            <Button color="inherit" onClick={logout}>Logout</Button>
+          }
           <Button color="inherit">
             <Link href="/register" style={{ textDecoration: 'none', color: 'white' }}>Register</Link>
           </Button>
