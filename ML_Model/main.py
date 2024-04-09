@@ -69,10 +69,11 @@ def preprocess_image_from_url(img_url):
 
 @app.post("/predict/")
 async def predict_image(request_body: ImageURL):
-    try:
-        img_array_expanded_dims = preprocess_image_from_url(request_body.image_url)
-        predictions = model.predict(img_array_expanded_dims)
-        top_prediction = decode_predictions(predictions, top=1)[0][0]
-        return {"label": top_prediction[1], "probability": float(top_prediction[2])}
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+    return {"status": "success"}
+    # try:
+    #     img_array_expanded_dims = preprocess_image_from_url(request_body.image_url)
+    #     predictions = model.predict(img_array_expanded_dims)
+    #     top_prediction = decode_predictions(predictions, top=1)[0][0]
+    #     return {"label": top_prediction[1], "probability": float(top_prediction[2])}
+    # except Exception as e:
+    #     raise HTTPException(status_code=400, detail=str(e))
