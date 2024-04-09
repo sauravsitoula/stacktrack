@@ -12,6 +12,10 @@ const {
 } = require("./utils/authenticationHandler.js");
 require("express-async-errors");
 
+app.use((req, res, next) => {
+  res.send("hello world");
+});
+
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
