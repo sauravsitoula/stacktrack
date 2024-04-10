@@ -1,20 +1,30 @@
-import { FormEvent, useContext, useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
-import RootLayout from '../../componets/layout'
-import { Box, Button, FormControl, InputAdornment, InputLabel, MenuItem, Select, SelectChangeEvent, Stack, TextField } from '@mui/material'
-import { ItemDataProps } from '../_app';
-import { UserContext } from '../_app';
+import { FormEvent, useContext, useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import RootLayout from "../../componets/layout";
+import {
+  Box,
+  Button,
+  FormControl,
+  InputAdornment,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Stack,
+  TextField,
+} from "@mui/material";
+import { UserContext } from "../_app";
 
 export default function EditItem() {
-  const router = useRouter()
-  const { user, setUser, token, setToken } = useContext(UserContext);
-  const [categories, setCategories] = useState<any[]>([])
-  const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
-  const [price, setPrice] = useState(0)
-  const [quantity, setQuantity] = useState(0)
-  const [selectedCategory, setSelectedCategory] = useState('')
-  const [image_url, setImage_url] = useState('')
+  const router = useRouter();
+  const { token } = useContext(UserContext);
+  const [categories, setCategories] = useState<any[]>([]);
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState(0);
+  const [quantity, setQuantity] = useState(0);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [image_url, setImage_url] = useState("");
 
   const handleChange = (event: SelectChangeEvent) => {
     setSelectedCategory(event.target.value);
@@ -22,56 +32,60 @@ export default function EditItem() {
 
   useEffect(() => {
     async function fetchData() {
-        const response = await fetch('http://18.118.122.21:3000/api/categories', {
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token
-              },
-          })
+      const response = await fetch("http://18.118.122.21:3000/api/categories", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      });
 
-          if (response.ok) {
-              const responseData = await response.json()
-              setCategories([{'uuid': '', 'name': 'Category'}, ...responseData])
-          }
-    };
+      if (response.ok) {
+        const responseData = await response.json();
+        setCategories([{ uuid: "", name: "Category" }, ...responseData]);
+      }
+    }
     fetchData();
-  }, [token])
+  }, [token]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
+    event.preventDefault();
 
-    const response = await fetch('http://18.118.122.21:3000/api/items/', {
-      method: 'POST',
+    const response = await fetch("http://18.118.122.21:3000/api/items/", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + token
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
       },
-      body: JSON.stringify({ name, description, price, quantity, category_uuid: selectedCategory, image_url }),
-    })
+      body: JSON.stringify({
+        name,
+        description,
+        price,
+        quantity,
+        category_uuid: selectedCategory,
+        image_url,
+      }),
+    });
 
     if (response.ok) {
-      const responseData = await response.json()
-      router.push('/items/' + responseData.item.uuid)
+      const responseData = await response.json();
+      router.push("/items/" + responseData.item.uuid);
     }
   }
 
   return (
-  <RootLayout>
-    <form onSubmit={handleSubmit}>
-        <Box
-          display='flex'
-          justifyContent='center'
-        >
-          <Stack width={'50%'} spacing={2} padding={2}>
-            <h1 style={{textAlign: 'center'}}>Add Item</h1>
+    <RootLayout>
+      <form onSubmit={handleSubmit}>
+        <Box display="flex" justifyContent="center">
+          <Stack width={"50%"} spacing={2} padding={2}>
+            <h1 style={{ textAlign: "center" }}>Add Item</h1>
             <TextField
               type="text"
               name="name"
               label="Name"
               required
               value={name}
-              onChange={(e) => (setName(e.target.value))}
+              onChange={(e) => setName(e.target.value)}
             />
             <TextField
               type="text"
@@ -79,16 +93,20 @@ export default function EditItem() {
               label="Description"
               required
               value={description}
-              onChange={(e) => (setDescription(e.target.value))}
+              onChange={(e) => setDescription(e.target.value)}
             />
             <TextField
-                type="number"
-                name="price"
-                label="Price"
-                required
-                value={price}
-                onChange={(e) => (setPrice(parseInt(e.target.value)))}
-                InputProps={{startAdornment: <InputAdornment position="start">$</InputAdornment>}}
+              type="number"
+              name="price"
+              label="Price"
+              required
+              value={price}
+              onChange={(e) => setPrice(parseInt(e.target.value))}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">$</InputAdornment>
+                ),
+              }}
             />
             <TextField
               type="number"
@@ -96,7 +114,7 @@ export default function EditItem() {
               label="Quantity"
               required
               value={quantity}
-              onChange={(e) => (setQuantity(parseInt(e.target.value)))}
+              onChange={(e) => setQuantity(parseInt(e.target.value))}
             />
             <FormControl fullWidth>
               <InputLabel id="Category-Select">Category</InputLabel>
@@ -107,8 +125,11 @@ export default function EditItem() {
                 required
               >
                 {categories.map((cat, index) => (
-                      <MenuItem value={cat.uuid} key={index}> {cat.name} </MenuItem>
-                  ))}
+                  <MenuItem value={cat.uuid} key={index}>
+                    {" "}
+                    {cat.name}{" "}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
             <TextField
@@ -117,12 +138,17 @@ export default function EditItem() {
               label="Image URL"
               required
               value={image_url}
-              onChange={(e) => (setImage_url(e.target.value))}
+              onChange={(e) => setImage_url(e.target.value)}
             />
-            <Button type="submit" sx={{ color: 'white', backgroundColor: '#ee6c4d' }}>Add</Button>
+            <Button
+              type="submit"
+              sx={{ color: "white", backgroundColor: "#ee6c4d" }}
+            >
+              Add
+            </Button>
           </Stack>
         </Box>
-    </form>
-  </RootLayout>
-  )
+      </form>
+    </RootLayout>
+  );
 }
