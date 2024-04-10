@@ -7,6 +7,6 @@ const router = express.Router();
 
 router.post("/", validateRole(["admin"]), categoryController.createCategory);
 
-router.get("/", validateRole(["admin"]), categoryController.getAllCategories);
+router.get("/", categoryController.getAllCategories);
 
 module.exports = router;

@@ -23,7 +23,9 @@ module.exports.getAllItems = async (params) => {
   try {
     var category = params.category;
     if (category != null) {
-      const res = await itemRepository.getAllItems({ category });
+      const res = await itemRepository.getAllItemsWithFilter({
+        category_uuid: category,
+      });
       return res;
     } else {
       const res = await itemRepository.getAllItems();
@@ -69,6 +71,15 @@ module.exports.updateItemById = async (id, itemDetails) => {
       const updatedItem = await itemRepository.getItemById(id);
       return updatedItem;
     }
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports.searchItemByName = async (name) => {
+  try {
+    const results = await itemRepository.searchItemByName(name);
+    return results;
   } catch (error) {
     throw error;
   }

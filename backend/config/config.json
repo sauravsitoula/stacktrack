@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "root",
+    "username": "admin",
     "password": "password",
     "database": "stacktrack",
-    "host": "127.0.0.1",
+    "host": "stacktrack.cvi0c8yc0ak1.us-east-2.rds.amazonaws.com",
     "dialect": "mysql"
   },
   "test": {

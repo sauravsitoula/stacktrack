@@ -88,9 +88,19 @@ exports.login = async (req, res, next) => {
     });
     res.json({
       message: "Login successful!",
-      uuid: user.uuid,
       token,
       refreshToken,
+      user: {
+        uuid: user.uuid,
+        userName: user.userName,
+        imageURL: user.imageURL,
+        email: user.email,
+        phoneNumber: user.phoneNumber,
+        address: user.address,
+        isAdmin: user.isAdmin,
+        isSuperAdmin: user.isSuperAdmin,
+        refreshToken: user.refreshToken,
+      },
     });
   } catch (err) {
     throw err;
