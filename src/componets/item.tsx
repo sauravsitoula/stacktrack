@@ -11,7 +11,7 @@ interface ItemParams {
 
 export default function Item({ itemData, userLevel, context }: ItemParams) {
     return (
-        <Card >
+        <Card raised sx={{padding: 2}}>
             <Box textAlign='center'>
                 {
                     context === 'single'

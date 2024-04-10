@@ -1,26 +1,18 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { UserContext } from './_app';
 import RootLayout from '../componets/layout';
 import ItemList from '@/componets/itemList';
-import { Box } from '@mui/material';
+import { Box, FormControl, Grid, InputLabel, Select, SelectChangeEvent, MenuItem, Button} from '@mui/material';
 
 export default function Home() {
   const { user, setUser, token, setToken } = useContext(UserContext);
+  const [categories, setCategories] = useState<any[]>([])
+  const [selectedCategory, setSelectedCategory] = useState('');
 
-  let categories = [
-    {
-      'uuid': 'test1',
-      'name': 'Shirts',
-    },
-    {
-      'uuid': 'test2',
-      'name': 'Jackets',
-    },
-    {
-      'uuid': 'test3',
-      'name': 'Hats',
-    },
-  ]
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setSelectedCategory(event.target.value);
+  };
 
   useEffect(() => {
       async function fetchData() {
@@ -34,7 +26,7 @@ export default function Home() {
 
           if (response.ok) {
               const responseData = await response.json()
-              categories = responseData
+              setCategories([{'uuid': '', 'name': 'Category'}, ...responseData])
           }
       };
       fetchData();
@@ -51,10 +43,28 @@ export default function Home() {
         :
         <>
           <h1 style={{textAlign: 'center'}}>Welcome, {user.userName}!</h1>
-          <Box>
-
-          </Box>
-          <ItemList/>
+          <Grid container spacing={2}>
+            <Grid item xs={1}/>
+            <Grid item xs={1}>
+              <Button color="inherit" sx={{ backgroundColor: 'green' }}>Add Item</Button>
+            </Grid>
+            <Grid item xs={8}/>
+            <Grid item xs={1}>
+              <FormControl fullWidth>
+                <InputLabel id="Category-Select">Category</InputLabel>
+                <Select
+                  labelId="Category-Select"
+                  onChange={handleChange}
+                  value={selectedCategory}
+                >
+                  {categories.map(cat => (
+                        <MenuItem value={cat.uuid}> {cat.name} </MenuItem>
+                    ))}
+                </Select>
+              </FormControl>
+            </Grid>
+          </Grid>
+          <ItemList category={selectedCategory}/>
         </>
       }
     </RootLayout>

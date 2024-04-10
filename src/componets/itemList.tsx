@@ -3,15 +3,24 @@ import { UserContext } from '@/pages/_app';
 import { Grid } from '@mui/material';
 import Item from '../componets/item'
 
-export default function ItemList() {
+interface ItemListParams {
+    category: string;
+}
+
+export default function ItemList({category}: ItemListParams) {
     const { user, setUser, token, setToken } = useContext(UserContext);
 
     const userLevel = user?.isSuperAdmin ? 'super' : user?.isAdmin ? 'admin' : 'regular'
-    const [itemDataList, setItemDataList] = useState([])
+    const [itemDataList, setItemDataList] = useState<any[]>([])
 
     useEffect(() => {
         async function fetchData() {
-            const response = await fetch('http://18.118.122.21:3000/api/items', {
+            let url = 'http://18.118.122.21:3000/api/items'
+            if(category !== '')
+            {
+                url = url + '?category=' + category
+            }
+            const response = await fetch(url, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -25,7 +34,7 @@ export default function ItemList() {
             }
         };
         fetchData();
-    }, [])
+    }, [category])
 
     return(
         <Grid container spacing={2}>
