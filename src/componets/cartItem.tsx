@@ -33,7 +33,7 @@ export default function CartItem({ cartItemData }: CartItemParams) {
             }
         };
         fetchData();
-      }, [token])
+    }, [token])
 
 
     function updateQuantity(q: number) {
@@ -69,16 +69,20 @@ export default function CartItem({ cartItemData }: CartItemParams) {
             </Typography>
             <Box textAlign='center'>
                 <TextField
-                type="number"
-                name="quantity"
-                label="Quantity"
-                required
-                value={quantity}
-                onChange={(e) => {
-                    setQuantity(parseInt(e.target.value))
-                    updateQuantity(parseInt(e.target.value))
-                    return
-                }}
+                    type="number"
+                    name="quantity"
+                    required
+                    value={quantity}
+                    onChange={(e) => {
+                        setQuantity(parseInt(e.target.value))
+                        updateQuantity(parseInt(e.target.value))
+                        return
+                    }}
+                    InputProps={{
+                        inputProps: {
+                            max: itemData.quantity, min: 1
+                        }
+                    }}
                 />
             </Box>
             <Box textAlign='center'>

@@ -6,55 +6,60 @@ import { Box, Button, Stack, TextField } from '@mui/material'
 import CartItem from '@/componets/cartItem'
 
 export default function Cart() {
-  const router = useRouter()
-  const { user, setUser, token, setToken } = useContext(UserContext);
-  const { cart, setCart } = useContext(CartContext);
+    const router = useRouter()
+    const { user, setUser, token, setToken } = useContext(UserContext);
+    const { cart, setCart } = useContext(CartContext);
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
+    async function purchase() {
+        const response = await fetch('http://18.118.122.21:3000/api/carts/checkout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+        })
 
-    const formData = new FormData(event.currentTarget)
-    const email = formData.get('email')
-    const password = formData.get('password')
-
-    const response = await fetch('http://18.118.122.21:3000/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
-    })
-
-    if (response.ok) {
-      const responseData = await response.json()
-      const user = responseData.user
-      localStorage.setItem('user', JSON.stringify(user))
-      localStorage.setItem('token', responseData.token)
-
-      setUser(user)
-      setToken(responseData.token)
-      router.push('/')
-    } else {
-      alert('Email or password is invalid')
+        if (response.ok) {
+            setCart([])
+            localStorage.setItem('cart', JSON.stringify([]))
+            router.push('/')
+        }
     }
-  }
+    useEffect(() => {
+        fetch('http://18.118.122.21:3000/api/carts/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({'cartItems': cart})
+        })
+    }, [cart])
 
-  return (
+    return (
     <RootLayout>
-      <Box
-          display='flex'
-          justifyContent='center'
+        <Box
+            display='flex'
+            justifyContent='center'
         >
-          <Stack width={'50%'} spacing={2} padding={2}>
-            <h1 style={{textAlign: 'center'}}>Cart</h1>
             {
-                cart.map((cartItemData, index) => (
-                        <CartItem
-                            cartItemData={cartItemData}
-                        />
-                    ))
+                cart.length === 0
+                ?
+                <h1 style={{textAlign: 'center'}}>Your cart is empty.</h1>
+                :
+                <Stack width={'50%'} spacing={2} padding={2}>
+                    <h1 style={{textAlign: 'center'}}>Cart</h1>
+                    {
+                        cart.map((cartItemData, index) => (
+                                <CartItem
+                                    cartItemData={cartItemData}
+                                />
+                            ))
+                    }
+                    <Button onClick={purchase} sx={{ color: 'white', backgroundColor: '#ee6c4d' }}>Purchase</Button>
+                </Stack>
             }
-            <Button type="submit" sx={{ color: 'white', backgroundColor: '#ee6c4d' }}>Purchase</Button>
-          </Stack>
         </Box>
     </RootLayout>
-  )
+    )
 }
