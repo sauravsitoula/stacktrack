@@ -3,6 +3,7 @@ import { UserContext } from './_app';
 import RootLayout from '../componets/layout';
 import ItemList from '@/componets/itemList';
 import { Box, FormControl, Grid, InputLabel, Select, SelectChangeEvent, MenuItem, Button, Link} from '@mui/material';
+import SearchBox from '@/componets/searchBox';
 
 export default function Home() {
   const { user, setUser, token, setToken } = useContext(UserContext);
@@ -50,7 +51,9 @@ export default function Home() {
                 <Link href={"/addItem/"} style={{ textDecoration: 'none', color: 'white' }}>Add Item</Link>
               </Button>
             </Grid>
-            <Grid item xs={8}/>
+            <Grid item xs={8}>
+              <SearchBox/>
+            </Grid>
             <Grid item xs={1}>
               <FormControl fullWidth>
                 <InputLabel id="Category-Select">Category</InputLabel>
