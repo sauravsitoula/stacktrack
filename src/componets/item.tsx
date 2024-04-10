@@ -17,7 +17,7 @@ export default function Item({ itemData, userLevel, context }: ItemParams) {
                     context === 'single'
                     ?
                     <Image
-                        src={Placeholder}
+                        src={itemData?.image_url?.startsWith('http') ? itemData?.image_url : Placeholder}
                         alt={itemData?.name || ''}
                         width={200}
                         height={200}
@@ -25,7 +25,7 @@ export default function Item({ itemData, userLevel, context }: ItemParams) {
                     :
                     <Link href={"/items/" + itemData?.uuid} >
                         <Image
-                            src={Placeholder}
+                            src={itemData?.image_url?.startsWith('http') ? itemData?.image_url : Placeholder}
                             alt={itemData?.name || ''}
                             width={200}
                             height={200}

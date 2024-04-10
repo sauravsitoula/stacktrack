@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { UserContext } from './_app';
 import RootLayout from '../componets/layout';
 import ItemList from '@/componets/itemList';
-import { Box, FormControl, Grid, InputLabel, Select, SelectChangeEvent, MenuItem, Button} from '@mui/material';
+import { Box, FormControl, Grid, InputLabel, Select, SelectChangeEvent, MenuItem, Button, Link} from '@mui/material';
 
 export default function Home() {
   const { user, setUser, token, setToken } = useContext(UserContext);
@@ -46,7 +46,9 @@ export default function Home() {
           <Grid container spacing={2}>
             <Grid item xs={1}/>
             <Grid item xs={1}>
-              <Button color="inherit" sx={{ color: 'white', backgroundColor: '#ee6c4d' }}>Add Item</Button>
+              <Button color="inherit" sx={{ color: 'white', backgroundColor: '#ee6c4d' }}>
+                <Link href={"/addItem/"} style={{ textDecoration: 'none', color: 'white' }}>Add Item</Link>
+              </Button>
             </Grid>
             <Grid item xs={8}/>
             <Grid item xs={1}>
