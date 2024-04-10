@@ -34,13 +34,13 @@ export default function ItemList({category}: ItemListParams) {
             }
         };
         fetchData();
-    }, [category])
+    }, [category, token])
 
     return(
         <Grid container spacing={2}>
             {
-                itemDataList.map(itemData => (
-                    <Grid item xs={4}>
+                itemDataList.map((itemData, index) => (
+                    <Grid item xs={4} key={index}>
                         <Item
                             itemData={itemData}
                             userLevel = {userLevel}

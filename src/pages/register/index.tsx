@@ -39,12 +39,12 @@ export default function RegisterPage() {
         >
           <Stack width={'50%'} spacing={2} padding={2}>
             <h1 style={{textAlign: 'center'}}>Register</h1>
-            <TextField type="userName" name="userName" label="User Name" required />
-            <TextField type="imageURL" name="imageURL" label="Image URL"/>
+            <TextField type="text" name="userName" label="User Name" required />
+            <TextField type="url" name="imageURL" label="Image URL"/>
             <TextField type="email" name="email" label="Email" required />
-            <TextField type="phoneNumber" name="phoneNumber" label="Phone Number"/>
+            <TextField type="tel" name="phoneNumber" label="Phone Number"/>
             <TextField type="password" name="password" label="Password" required />
-            <TextField type="address" name="address" label="Address" required />
+            <TextField type="text" name="address" label="Address" required />
             <Button type="submit" sx={{ color: 'white', backgroundColor: '#ee6c4d' }}>Register</Button>
           </Stack>
         </Box>

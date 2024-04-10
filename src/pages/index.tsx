@@ -57,8 +57,8 @@ export default function Home() {
                   onChange={handleChange}
                   value={selectedCategory}
                 >
-                  {categories.map(cat => (
-                        <MenuItem value={cat.uuid}> {cat.name} </MenuItem>
+                  {categories.map((cat, index) => (
+                        <MenuItem value={cat.uuid} key={index}> {cat.name} </MenuItem>
                     ))}
                 </Select>
               </FormControl>

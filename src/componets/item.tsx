@@ -56,7 +56,9 @@ export default function Item({ itemData, userLevel, context }: ItemParams) {
                 </Box>
                 :
                 <Box textAlign='center'>
-                    <Button color="inherit" sx={{ color: 'white', backgroundColor: '#ee6c4d' }}>Edit</Button>
+                    <Button color="inherit" sx={{ color: 'white', backgroundColor: '#ee6c4d' }}>
+                        <Link href={"/editItems/" + itemData?.uuid} style={{ textDecoration: 'none', color: 'white' }}>Edit</Link>
+                    </Button>
                     <Button color="inherit" sx={{ color: 'white', backgroundColor: '#ee6c4d' }}>Delete</Button>
                 </Box>
             }

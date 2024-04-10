@@ -1,49 +1,36 @@
 import { GetServerSideProps } from "next";
-import { useContext } from "react";
-import { UserContext } from "../_app";
+import { useContext, useEffect, useState } from "react";
+import { ItemDataProps, UserContext } from "../_app";
 import Item from "@/componets/item";
 import RootLayout from "@/componets/layout";
 
 interface ItemPageParams {
-    uuid: string;
+    uuids: string;
 }
 
-export default function ItemPage({uuid} : ItemPageParams) {
+export default function ItemPage({uuids} : ItemPageParams) {
     const { user, setUser, token, setToken } = useContext(UserContext);
 
     const userLevel = user?.isSuperAdmin ? 'super' : user?.isAdmin ? 'admin' : 'admin'
-    const itemDataList = [
-        {
-            uuid: '1',
-            name: 'Polo Tshirt',
-            price: 11,
-            description: 'white shirt of size S and M are available',
-            image_url: 'https://mobile.yoox.com/images/items/10/10086461OR_14_f.jpg?impolicy=crop&width=387&height=490'
-        },
-        {
-            uuid: '2',
-            name: 'Polo Tshirt',
-            price: 12,
-            description: 'white shirt of size S and M are available',
-            image_url: 'https://mobile.yoox.com/images/items/10/10086461OR_14_f.jpg?impolicy=crop&width=387&height=490'
-        },
-        {
-            uuid: '3',
-            name: 'Polo Tshirt',
-            price: 13,
-            description: 'white shirt of size S and M are available',
-            image_url: 'https://mobile.yoox.com/images/items/10/10086461OR_14_f.jpg?impolicy=crop&width=387&height=490'
-        },
-        {
-            uuid: '4',
-            name: 'Polo Tshirt',
-            price: 14,
-            description: 'white shirt of size S and M are available',
-            image_url: 'https://mobile.yoox.com/images/items/10/10086461OR_14_f.jpg?impolicy=crop&width=387&height=490'
-        },
-    ]
+    const [itemData, setItemData] = useState<ItemDataProps>({})
 
-    const itemData = itemDataList.find((e) => e.uuid === uuid[0]) || null;
+    useEffect(() => {
+      async function fetchData() {
+          const response = await fetch('http://18.118.122.21:3000/api/items/' + uuids[0], {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+          })
+
+          if (response.ok) {
+              const responseData = await response.json()
+              setItemData(responseData)
+          }
+      };
+      fetchData();
+    }, [token])
 
     return(
         <RootLayout>
@@ -61,7 +48,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     return {
         props: {
-            uuid: uuid,
+            uuids: uuid,
         },
     };
 };
