@@ -32,20 +32,32 @@ interface UserContextParams {
     [u: string]: any;
 }
 
+export interface CartProps {
+    item_uuid: string;
+    quantity: number;
+}
+
+interface CartContextParams {
+    cart: CartProps[];
+    [u: string]: any;
+}
+
 export const UserContext = createContext<UserContextParams>({user: null, token: ''})
+export const CartContext = createContext<CartContextParams>({cart: []})
 
 export default function MyApp({ Component, pageProps }: AppProps) {
     const [user, setUser] = useState(null)
     const [token, setToken] = useState('')
+    const [cart, setCart] = useState<CartProps[]>([])
 
     useEffect(() => {
         let localUser = localStorage?.getItem('user')
         setUser(localUser ? JSON.parse(localUser) : null)
-
         setToken(localStorage.getItem('token') || '')
+
+        let localCart = localStorage?.getItem('cart')
+        setCart(localCart ? JSON.parse(localCart) : [])
     }, [])
-
-
 
     const userContextValue = {
         user,
@@ -54,9 +66,16 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         setToken
     }
 
+    const cartContextValue = {
+        cart,
+        setCart
+    }
+
     return (
         <UserContext.Provider value={userContextValue}>
-            <Component {...pageProps} />
+            <CartContext.Provider value={cartContextValue}>
+                <Component {...pageProps} />
+            </CartContext.Provider>
         </UserContext.Provider>
     )
 }

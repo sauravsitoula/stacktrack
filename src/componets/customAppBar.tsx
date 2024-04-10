@@ -41,11 +41,19 @@ export default function ButtonAppBar() {
           </Typography>
           {
             user === null || token === '' ?
-            <Button color="inherit">
-              <Link href="/login" style={{ textDecoration: 'none', color: 'white' }}>Login</Link>
-            </Button>
+            <>
+
+              <Button color="inherit">
+                <Link href="/login" style={{ textDecoration: 'none', color: 'white' }}>Login</Link>
+              </Button>
+            </>
             :
-            <Button color="inherit" onClick={logout}>Logout</Button>
+            <>
+              <Button color="inherit">
+                <Link href="/cart" style={{ textDecoration: 'none', color: 'white' }}>Cart</Link>
+              </Button>
+              <Button color="inherit" onClick={logout}>Logout</Button>
+            </>
           }
           <Button color="inherit">
             <Link href="/register" style={{ textDecoration: 'none', color: 'white' }}>Register</Link>
