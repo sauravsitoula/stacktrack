@@ -46,7 +46,7 @@ export default function Home() {
           <Grid container spacing={2}>
             <Grid item xs={1}/>
             <Grid item xs={1}>
-              <Button color="inherit" sx={{ backgroundColor: 'green' }}>Add Item</Button>
+              <Button color="inherit" sx={{ color: 'white', backgroundColor: '#ee6c4d' }}>Add Item</Button>
             </Grid>
             <Grid item xs={8}/>
             <Grid item xs={1}>

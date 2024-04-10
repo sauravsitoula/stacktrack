@@ -2,6 +2,7 @@ import { FormEvent, useContext, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import RootLayout from '../../componets/layout'
 import { UserContext } from '../_app'
+import { Box, Button, Stack, TextField } from '@mui/material'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -39,9 +40,17 @@ export default function LoginPage() {
   return (
     <RootLayout>
       <form onSubmit={handleSubmit}>
-        <input type="email" name="email" placeholder="Email" required />
-        <input type="password" name="password" placeholder="Password" required />
-        <button type="submit">Login</button>
+        <Box
+          display='flex'
+          justifyContent='center'
+        >
+          <Stack width={'50%'} spacing={2} padding={2}>
+            <h1 style={{textAlign: 'center'}}>Login</h1>
+            <TextField type="email" name="email" label="Email"required />
+            <TextField type="password" name="password" label="Password" required />
+            <Button type="submit" sx={{ color: 'white', backgroundColor: '#ee6c4d' }}>Login</Button>
+          </Stack>
+        </Box>
       </form>
     </RootLayout>
   )

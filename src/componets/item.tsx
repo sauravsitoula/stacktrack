@@ -52,12 +52,12 @@ export default function Item({ itemData, userLevel, context }: ItemParams) {
                 context === 'list' || userLevel === 'regular'
                 ?
                 <Box textAlign='center'>
-                    <Button color="inherit" sx={{ backgroundColor: 'green' }}>Add to Cart</Button>
+                    <Button color="inherit" sx={{ color: 'white', backgroundColor: '#ee6c4d' }}>Add to Cart</Button>
                 </Box>
                 :
                 <Box textAlign='center'>
-                    <Button color="inherit" sx={{ backgroundColor: 'green' }}>Edit</Button>
-                    <Button color="inherit" sx={{ backgroundColor: 'green' }}>Delete</Button>
+                    <Button color="inherit" sx={{ color: 'white', backgroundColor: '#ee6c4d' }}>Edit</Button>
+                    <Button color="inherit" sx={{ color: 'white', backgroundColor: '#ee6c4d' }}>Delete</Button>
                 </Box>
             }
 
