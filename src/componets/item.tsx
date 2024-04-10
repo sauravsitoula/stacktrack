@@ -1,7 +1,9 @@
 import Image from 'next/image'
 import { Box, Button, Card, Link, Typography } from '@mui/material';
-import {ItemDataProps} from '../pages/_app'
+import {ItemDataProps, UserContext} from '../pages/_app'
 import Placeholder from '../../public/placeholder.jpg'
+import { useRouter } from 'next/router';
+import { useContext } from 'react';
 
 interface ItemParams {
     itemData: ItemDataProps | null;
@@ -10,6 +12,24 @@ interface ItemParams {
 }
 
 export default function Item({ itemData, userLevel, context }: ItemParams) {
+    const router = useRouter()
+    const { user, setUser, token, setToken } = useContext(UserContext);
+
+    async function deleteItem() {
+        const response = await fetch('http://18.118.122.21:3000/api/items/' + itemData?.uuid, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          }
+        })
+
+
+        if (response.ok) {
+            router.push('/')
+        }
+    }
+
     return (
         <Card raised sx={{padding: 2}}>
             <Box textAlign='center'>
@@ -56,10 +76,10 @@ export default function Item({ itemData, userLevel, context }: ItemParams) {
                 </Box>
                 :
                 <Box textAlign='center'>
-                    <Button color="inherit" sx={{ color: 'white', backgroundColor: '#ee6c4d' }}>
+                    <Button color="inherit" sx={{ color: 'white', backgroundColor: '#ee6c4d', margin: 1 }}>
                         <Link href={"/editItems/" + itemData?.uuid} style={{ textDecoration: 'none', color: 'white' }}>Edit</Link>
                     </Button>
-                    <Button color="inherit" sx={{ color: 'white', backgroundColor: '#ee6c4d' }}>Delete</Button>
+                    <Button color="inherit" onClick={deleteItem} sx={{ color: 'white', backgroundColor: '#ee6c4d', margin: 1 }}>Delete</Button>
                 </Box>
             }
 

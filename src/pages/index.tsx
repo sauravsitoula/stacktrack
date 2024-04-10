@@ -43,7 +43,7 @@ export default function Home() {
         :
         <>
           <h1 style={{textAlign: 'center'}}>Welcome, {user.userName}!</h1>
-          <Grid container spacing={2}>
+          <Grid container spacing={2} margin={2}>
             <Grid item xs={1}/>
             <Grid item xs={1}>
               <Button color="inherit" sx={{ color: 'white', backgroundColor: '#ee6c4d' }}>

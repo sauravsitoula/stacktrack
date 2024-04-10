@@ -27,7 +27,7 @@ export default function EditItem() {
               headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + token
-            },
+              },
           })
 
           if (response.ok) {

@@ -23,14 +23,12 @@ export default function LoginPage() {
 
     if (response.ok) {
       const responseData = await response.json()
-      //useEffect(() => {
-        const user = responseData.user
-        localStorage.setItem('user', JSON.stringify(user))
-        localStorage.setItem('token', responseData.token)
+      const user = responseData.user
+      localStorage.setItem('user', JSON.stringify(user))
+      localStorage.setItem('token', responseData.token)
 
-        setUser(user)
-        setToken(responseData.token)
-      //}, [])
+      setUser(user)
+      setToken(responseData.token)
       router.push('/')
     } else {
       alert('Email or password is invalid')
