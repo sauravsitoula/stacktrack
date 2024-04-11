@@ -59,7 +59,7 @@ export default function SignIn() {
     setLoader(true);
     if (validateForm()) {
       const data = axios
-        .post("http://18.118.122.21:3000/auth/login", {
+        .post("http://localhost:3002/auth/login", {
           email,
           password,
         })
@@ -70,6 +70,7 @@ export default function SignIn() {
           };
           setLoader(false);
           setAuth(authData);
+          localStorage.setItem("refreshToken", data.data.user.refreshToken);
           navigate("/");
         })
         .catch((error) => {

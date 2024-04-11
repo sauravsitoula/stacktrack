@@ -118,11 +118,6 @@ exports.logout = async (req, res, next) => {
     const foundUser = await User.findOne({ where: { refreshToken } });
 
     if (!foundUser) {
-      res.clearCookie("jwt", {
-        httpOnly: true,
-        sameSite: "None",
-        secure: true,
-      });
       return res.sendStatus(204);
     }
 
@@ -138,10 +133,8 @@ exports.logout = async (req, res, next) => {
 
 exports.refresh = async (req, res, next) => {
   try {
-    const cookies = req.cookies;
-    if (!cookies?.jwt) return res.sendStatus(401);
-    const refreshToken = cookies.jwt;
-
+    const refreshToken = req.body.refreshToken;
+    if (!refreshToken) return res.sendStatus(401);
     const foundUser = await User.findOne({ where: { refreshToken } });
     if (!foundUser) return res.sendStatus(403);
 

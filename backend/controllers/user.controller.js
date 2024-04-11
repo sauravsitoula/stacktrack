@@ -39,6 +39,9 @@ exports.login = async (req, res, next) => {
 exports.refresh = async (req, res) => {
   try {
     const cookies = req.cookies;
+    console.log("---------------------------------------");
+    console.log(req.cookies);
+    console.log("-----------------------");
     if (!cookies?.jwt) return res.sendStatus(401);
     const refreshToken = cookies.jwt;
 

@@ -7,7 +7,7 @@ const useAxiosPrivate = () => {
   const { auth } = useAuth();
   const refresh = useRefreshToken();
   const axiosPrivate = axios.create({
-    baseURL: "http://18.118.122.21:3000/api",
+    baseURL: "http://localhost:3002/api",
   });
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const useAxiosPrivate = () => {
       (response) => response,
       async (error) => {
         const prevRequest = error?.config;
-        if (error?.respnse?.status === 403 && !prevRequest?.sent) {
+        if (error?.response?.status === 403 && !prevRequest?.sent) {
           prevRequest.sent = true;
           const newAccessToken = await refresh();
           prevRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
