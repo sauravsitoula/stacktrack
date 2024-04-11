@@ -6,7 +6,7 @@ const useAxiosPrivate = () => {
   const { auth } = useAuth();
 
   const axiosPrivate = axios.create({
-    baseURL: "http://18.118.122.21:3000",
+    baseURL: "http://18.118.122.21:3000/api",
   });
 
   useEffect(() => {

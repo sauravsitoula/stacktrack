@@ -1,6 +1,23 @@
 import styled from "styled-components";
 
-export const ErrorWrapper = styled.div`
+export const GSContainer = styled.div`
+  height: 800px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: ${({ lightBg }) => (lightBg ? "#f9f9f9" : "#010606")};
+  @media screen and (max-width: 768px) {
+    height: 1100px;
+    padding: 100px 0;
+  }
+  @media screen and (max-width: 480px) {
+    height: 800px;
+    padding: 100px 0;
+  }
+`;
+
+export const GSWrapper = styled.div`
     display: grid;
     z-index = 1;
     height: 550px;
@@ -11,7 +28,7 @@ export const ErrorWrapper = styled.div`
     padding: 0 24px;
     justify-content: center; 
 `;
-export const ErrorRow = styled.div`
+export const GSRow = styled.div`
   display: grid;
   grid-auto-columns: minmax(auto, 1fr);
   align-items: center;
@@ -39,21 +56,41 @@ export const TextWrapper = styled.div`
   padding-top: 0;
 `;
 
+export const Topline = styled.p`
+  color: #01bf71;
+  font-size: 25px;
+  line-height: 16px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+`;
+
 export const Description = styled.p`
     max-width: 440px;
     margin:bottom: 35px;
     font-size 18px;
     line-height: 24px;
     text-align: justify;
-    color: #010606;
+    color: ${({ darkText }) => (darkText ? "#010606" : "#fff")};
 `;
 
 export const ImgWrap = styled.div`
   maxwidth: 555px;
   height: 100%;
 `;
+
 export const Img = styled.img`
   width: 100%;
   margin: 0 0 10px 0;
   padding-right: 0;
+`;
+
+export const GSH1 = styled.h1`
+  font-size: 2.5rem;
+  margin-bottom: 64px;
+  color: ${({ darkText }) => (darkText ? "#010606" : "#fff")};
+  @media screen and (max-width: 480px) {
+    font-size: 2rem;
+  }
 `;

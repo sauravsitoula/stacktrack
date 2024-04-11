@@ -1,0 +1,113 @@
+.modalBackground {
+  margin: 0;
+  padding: 0;
+  width: 102vw;
+  height: 100vh;
+  /* background-color: rgb(52, 42, 42); */
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  /* opacity: 0.9; */
+  left: -10px;
+  top: 0;
+}
+
+.transparent-background {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: rgb(52, 42, 42);
+  opacity: 0.9;
+  z-index: 99;
+}
+
+.modalContainer {
+  width: 25%;
+  height: auto;
+  border-radius: 12px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 100;
+}
+
+.modalContainer .title {
+  display: inline-block;
+  text-align: center;
+  font-size: 28px;
+  font-weight: 500;
+}
+
+.titleCloseBtn {
+  align-self: flex-end;
+}
+
+.titleCloseBtn button {
+  background-color: transparent;
+  border: none;
+  font-size: 25px;
+  font-weight: bold;
+  cursor: pointer;
+  color: red;
+  align-self: flex-end;
+}
+
+.modalContainer .body {
+  flex: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.7rem;
+  text-align: center;
+}
+
+.modalContainer .body .message-body {
+  font-size: 1.2rem;
+  margin-top: 10px;
+}
+
+.modalContainer .footer {
+  /* flex: 20%; */
+  /* display: flex; */
+  /* justify-content: center; */
+  /* align-items: center; */
+  margin-top: 15px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.confirmation-buttons {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.modalContainer .footer button {
+  width: 120px;
+  /* height: 45px;
+    margin: 10px;
+    border: none;
+    background-color: cornflowerblue;
+    color: white;
+    border-radius: 8px;
+    font-size: 20px; */
+  cursor: pointer;
+}
+
+#cancelBtn {
+  background-color: crimson;
+}
+
+.success-gif img {
+  object-fit: contain;
+  height: 150px;
+  width: 150px;
+}

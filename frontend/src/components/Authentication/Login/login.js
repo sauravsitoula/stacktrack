@@ -11,18 +11,19 @@ import Box from "@mui/material/Box";
 import { MdLockOutline } from "react-icons/md";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
-const theme = createTheme();
+import Loader from "../../commons/Loader/Loader";
+import Modal from "../../commons/Modal/Modal";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setpassword] = useState("");
   const [errors, setErrors] = useState({});
+  const [loader, setLoader] = useState(false);
+  const [modal, setModal] = useState({});
 
   const { setAuth } = useAuth();
   const navigate = useNavigate();
@@ -53,25 +54,59 @@ export default function SignIn() {
     return isValid;
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+    setLoader(true);
     if (validateForm()) {
-      const data = await axios.post("http://18.118.122.21:3000/auth/login", {
-        email,
-        password,
-      });
-      console.log(data);
-      const authData = {
-        token: data.data.token,
-        user: data.data.user,
-      };
-      setAuth(authData);
-      navigate("/");
+      const data = axios
+        .post("http://18.118.122.21:3000/auth/login", {
+          email,
+          password,
+        })
+        .then((data) => {
+          const authData = {
+            token: data.data.token,
+            user: data.data.user,
+          };
+          setLoader(false);
+          setAuth(authData);
+          navigate("/");
+        })
+        .catch((error) => {
+          setLoader(false);
+          let errorMessage = "";
+          if (!error?.response) {
+            errorMessage = "No response from server";
+          } else if (error?.response?.status === 400) {
+            errorMessage = "Provide Email and Password correctly";
+          } else if (error?.response?.status === 401) {
+            errorMessage = "Invalid credentials";
+          } else {
+            errorMessage = "Login failed";
+          }
+          setModal({
+            show: true,
+            title: "Error",
+            message: errorMessage,
+            type: "failure",
+          });
+        });
     }
   };
 
   return (
-    <ThemeProvider theme={theme}>
+    <div>
+      {loader ? <Loader /> : ""}
+      {modal.show ? (
+        <Modal
+          modal={setModal}
+          title={modal.title}
+          message={modal.message}
+          type={modal.type}
+        />
+      ) : (
+        ""
+      )}
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -141,6 +176,6 @@ export default function SignIn() {
           </Box>
         </Box>
       </Container>
-    </ThemeProvider>
+    </div>
   );
 }
