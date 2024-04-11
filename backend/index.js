@@ -27,8 +27,8 @@ app.use((error, req, res, next) => {
   res.status(status).json({ error: true, message: message });
 });
 
-app.listen(3002, () => {
-  console.log("server is running at http://localhost:3002");
+app.listen(3000, () => {
+  console.log("server is running at http://localhost:3000");
   db.sequelize.sync().then((req) => {
     console.log("DB synchronized");
   });

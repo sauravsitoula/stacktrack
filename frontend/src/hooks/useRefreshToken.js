@@ -5,9 +5,13 @@ const useRefreshToken = () => {
   const { setAuth, auth } = useAuth();
   const refresh = async () => {
     const refreshToken = localStorage.getItem("refreshToken");
-    const response = await axios.get("http://localhost:3002/auth/refresh", {
-      refreshToken,
-    });
+    console.log("getting refresh token", refreshToken);
+    const response = await axios.post(
+      "http://18.118.122.21:3000/auth/refresh",
+      {
+        refreshToken,
+      }
+    );
     setAuth((prev) => {
       return {
         ...prev,

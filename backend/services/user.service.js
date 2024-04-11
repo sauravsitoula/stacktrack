@@ -82,14 +82,9 @@ exports.login = async (req, res, next) => {
     });
     user.refreshToken = refreshToken;
     await user.save();
-    res.cookie("jwt", refreshToken, {
-      httpOnly: true,
-      maxAge: 24 * 60 * 60 * 1000,
-    });
     res.json({
       message: "Login successful!",
       token,
-      refreshToken,
       user: {
         uuid: user.uuid,
         userName: user.userName,

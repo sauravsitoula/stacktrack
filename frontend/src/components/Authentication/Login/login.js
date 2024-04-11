@@ -59,7 +59,7 @@ export default function SignIn() {
     setLoader(true);
     if (validateForm()) {
       const data = axios
-        .post("http://localhost:3002/auth/login", {
+        .post("http://18.118.122.21:3000/auth/login", {
           email,
           password,
         })
