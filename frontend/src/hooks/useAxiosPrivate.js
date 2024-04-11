@@ -1,10 +1,11 @@
 import axios from "axios";
 import { useEffect } from "react";
 import useAuth from "./useAuth";
+import useRefreshToken from "./useRefreshToken";
 
 const useAxiosPrivate = () => {
   const { auth } = useAuth();
-
+  const refresh = useRefreshToken();
   const axiosPrivate = axios.create({
     baseURL: "http://18.118.122.21:3000/api",
   });
@@ -20,10 +21,25 @@ const useAxiosPrivate = () => {
       (error) => Promise.reject(error)
     );
 
+    const responseIntercept = axiosPrivate.interceptors.response.use(
+      (response) => response,
+      async (error) => {
+        const prevRequest = error?.config;
+        if (error?.respnse?.status === 403 && !prevRequest?.sent) {
+          prevRequest.sent = true;
+          const newAccessToken = await refresh();
+          prevRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
+          return axiosPrivate(prevRequest);
+        }
+        return Promise.reject(error);
+      }
+    );
+
     return () => {
       axiosPrivate.interceptors.request.eject(requestIntercept);
+      axiosPrivate.interceptors.response.eject(responseIntercept);
     };
-  }, [auth?.token]);
+  }, [auth?.token, refresh]);
 
   return axiosPrivate;
 };

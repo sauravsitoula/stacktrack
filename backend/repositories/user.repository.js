@@ -20,3 +20,13 @@ module.exports.getUserByEmail = async (email) => {
     throw error;
   }
 };
+module.exports.getUserByRefreshToken = async (token) => {
+  try {
+    const user = await Users.findOne({
+      where: { refreshToken: token },
+    });
+    return user;
+  } catch (error) {
+    throw error;
+  }
+};
