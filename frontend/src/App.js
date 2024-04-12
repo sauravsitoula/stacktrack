@@ -12,6 +12,7 @@ import About from "./components/About/About";
 import CreateItemForm from "./components/Items/CreateItems/CreateItemForm";
 import PersistLogin from "./utils/PersistLogin";
 import UpdateItemForm from "./components/Items/UpdateItems/UpdateItemForm";
+import CartPage from "./components/Cart/Index";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route element={<RequireRole roleName={[]} />}>
             <Route path="/" element={<Items />} />
             <Route path="/about" element={<About />} />
+            <Route path="/cart" element={<CartPage />} />
           </Route>
           <Route element={<RequireRole roleName={["isAdmin"]} />}></Route>
           <Route element={<RequireRole roleName={["isSuperAdmin"]} />}></Route>
