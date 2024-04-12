@@ -28,6 +28,12 @@
   color: #61dafb;
 }
 
+.form-error-message {
+  color: red;
+  text-align: left;
+  font-size: small;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

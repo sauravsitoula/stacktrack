@@ -60,7 +60,7 @@ export default function Items() {
           color="primary"
           type="submit"
           component={Link}
-          to="./CreateItemForm"
+          to="./create-item"
         >
           Create Item
         </Button>

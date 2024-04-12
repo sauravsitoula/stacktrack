@@ -3,6 +3,10 @@ import useAuth from "../hooks/useAuth";
 
 const RequireAuth = () => {
   const { auth } = useAuth();
+  console.log(
+    "requireing auth check ------------------------------------------------"
+  );
+  console.log(auth);
   return auth?.token ? (
     <>
       <Outlet />

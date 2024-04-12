@@ -10,7 +10,7 @@
   cursor: pointer;
 }
 
-.preview{
+.preview {
   position: relative;
 }
 .preview img {
@@ -18,12 +18,9 @@
   max-width: 400px;
   margin-top: 20px;
   border-radius: 5px;
- 
-  
 }
 
 .remove-button {
-  
   /* display: inline-block; */
   position: absolute;
   margin-top: 10px;
@@ -35,6 +32,6 @@
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
-  right: 8rem;
-  top: 0rem;
+  right: 66px;
+  top: -5px;
 }

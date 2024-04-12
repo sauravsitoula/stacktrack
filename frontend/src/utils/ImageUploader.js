@@ -3,16 +3,23 @@ import React from "react";
 import { useDropzone } from "react-dropzone";
 import "./ImageUploader.css";
 import { uploadToFirebase } from "./UploadFirebase";
+import Loader from "../components/commons/Loader/Loader";
+import Modal from "../components/commons/Modal/Modal";
 
 const ImageUploader = ({ setParentState }) => {
   const [image, setImage] = useState(null);
+  const [loader, setLoader] = useState(false);
+  const [modal, setModal] = useState({});
 
-  const handleSubmit = async () => {
+  const uploadImage = async () => {
     if (image) {
+      setLoader(true);
       var downloadURL = await uploadToFirebase(image);
+      setLoader(false);
+      setImage(null);
       console.log("downloadURL: " + downloadURL);
       setParentState((prevState) => {
-        return { ...prevState, imageURL: downloadURL };
+        return { ...prevState, image_url: downloadURL };
       });
     }
   };
@@ -41,6 +48,17 @@ const ImageUploader = ({ setParentState }) => {
 
   return (
     <div className="container">
+      {loader ? <Loader /> : ""}
+      {modal.show ? (
+        <Modal
+          modal={setModal}
+          title={modal.title}
+          message={modal.message}
+          type={modal.type}
+        />
+      ) : (
+        ""
+      )}
       <div {...getRootProps({ className: "dropzone" })}>
         <input {...getInputProps()} />
         <p>Drag 'n' drop an image here, or click to select an image</p>
@@ -53,7 +71,7 @@ const ImageUploader = ({ setParentState }) => {
           </button>
         </div>
       )}
-      <button onClick={handleSubmit}>upload</button>
+      {image ? <button onClick={uploadImage}>upload</button> : <></>}
     </div>
   );
 };

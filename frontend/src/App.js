@@ -9,6 +9,8 @@ import Unauthorized from "./FallbackComponents/Unauthorized/Unauthorized";
 import Items from "./components/Items/Index";
 import NavBar from "./components/Navbar/navIndex";
 import About from "./components/About/About";
+import CreateItemForm from "./components/Items/CreateItems/CreateItemForm";
+import PersistLogin from "./utils/PersistLogin";
 
 function App() {
   return (
@@ -17,11 +19,18 @@ function App() {
       <Routes>
         <Route path="/sign-in" element={<Login />} />
         <Route path="/sign-up" element={<Signup />} />
-        <Route path="/" element={<Items />} />
-
-        {/* Components needing authorization */}
-        <Route element={<RequireAuth />}>
-          <Route path="/about" element={<About />} />
+        <Route element={<PersistLogin />}>
+          <Route element={<RequireRole roleName={[]} />}>
+            <Route path="/" element={<Items />} />
+            <Route path="/about" element={<About />} />
+          </Route>
+          <Route element={<RequireRole roleName={["isAdmin"]} />}></Route>
+          <Route element={<RequireRole roleName={["isSuperAdmin"]} />}></Route>
+          <Route
+            element={<RequireRole roleName={["isAdmin", "isSuperAdmin"]} />}
+          >
+            <Route path="/create-item" element={<CreateItemForm />} />
+          </Route>
         </Route>
 
         {/* Fallback components */}

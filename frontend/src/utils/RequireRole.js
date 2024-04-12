@@ -3,11 +3,18 @@ import useAuth from "../hooks/useAuth";
 
 const RequireRole = ({ roleName }) => {
   const { auth } = useAuth();
-  return auth?.role?.[roleName] ? (
+  var hasRequiredRole = false;
+  if (roleName.length === 0) {
+    if (auth.token) hasRequiredRole = true;
+  } else {
+    hasRequiredRole = roleName.some((role) => auth?.user?.[role]);
+  }
+
+  return hasRequiredRole ? (
     <>
       <Outlet />
     </>
-  ) : auth?.access_token ? (
+  ) : auth?.token ? (
     <Navigate to="/unauthorized" />
   ) : (
     <Navigate to="/login" />
