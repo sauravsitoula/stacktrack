@@ -214,7 +214,12 @@ const CreateItemForm = () => {
 
         <div className="buttons">
           <button type="submit">Create</button>
-          <button type="button" onClick={() => {}}>
+          <button
+            type="button"
+            onClick={() => {
+              navigate("/");
+            }}
+          >
             Cancel
           </button>
         </div>

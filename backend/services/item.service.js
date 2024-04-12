@@ -58,9 +58,10 @@ module.exports.updateItemById = async (id, itemDetails) => {
   try {
     const alreadyExists = await itemRepository.getItemByName(itemDetails.name);
     if (alreadyExists)
-      throw new Error(
-        "Item with name '" + itemDetails.name + "' already exists"
-      );
+      if (alreadyExists.uuid != id)
+        throw new Error(
+          "Item with name '" + itemDetails.name + "' already exists"
+        );
     const category = await categoryRepository.getCategoryById(
       itemDetails.category_uuid
     );

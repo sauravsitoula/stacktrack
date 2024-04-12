@@ -1,32 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import Button from "@mui/material/Button";
 import "./Styles/Items.css";
-// import AccommodationDetails from "./AccommodationDetailsModal";
 import ItemDetailModal from "./ItemDetailModal";
 import { Link } from "react-router-dom";
-
-// const style = {
-//   position: "absolute",
-//   top: "50%",
-//   left: "50%",
-//   transform: "translate(-50%, -50%)",
-//   width: 400,
-//   bgcolor: "background.paper",
-//   border: "2px solid #000",
-//   boxShadow: 24,
-//   p: 4,
-// };
+import Loader from "../commons/Loader/Loader";
+import Modal from "../commons/Modal/Modal";
 
 export default function Items() {
-  //const classes = useStyles();
   const [items, setItems] = React.useState(null);
+  const [loader, setLoader] = useState(false);
+  const [modal, setModal] = useState({});
   const axios = useAxiosPrivate();
 
   React.useEffect(() => {
-    axios.get("/items").then((response) => {
-      setItems(response.data);
-    });
+    setLoader(true);
+    axios
+      .get("/items")
+      .then((response) => {
+        setItems(response.data);
+        setLoader(false);
+      })
+      .catch((error) => {
+        setLoader(false);
+      });
   }, []);
 
   if (!items) return null;
@@ -53,6 +50,17 @@ export default function Items() {
 
   return (
     <>
+      {loader ? <Loader /> : ""}
+      {modal.show ? (
+        <Modal
+          modal={setModal}
+          title={modal.title}
+          message={modal.message}
+          type={modal.type}
+        />
+      ) : (
+        ""
+      )}
       <div className="topev">
         <Button
           variant="contained"

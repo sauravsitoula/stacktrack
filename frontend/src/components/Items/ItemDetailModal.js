@@ -67,7 +67,7 @@ export default function AccommodationDetails(props) {
               <div className="div3A">
                 <div className="edit-button">
                   <Link
-                    to={"/updateItem/" + props.id}
+                    to={"/update-item/" + props.id}
                     style={{ textDecoration: "none" }}
                   >
                     <button

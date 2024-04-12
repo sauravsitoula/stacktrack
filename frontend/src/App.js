@@ -11,6 +11,7 @@ import NavBar from "./components/Navbar/navIndex";
 import About from "./components/About/About";
 import CreateItemForm from "./components/Items/CreateItems/CreateItemForm";
 import PersistLogin from "./utils/PersistLogin";
+import UpdateItemForm from "./components/Items/UpdateItems/UpdateItemForm";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
             element={<RequireRole roleName={["isAdmin", "isSuperAdmin"]} />}
           >
             <Route path="/create-item" element={<CreateItemForm />} />
+            <Route path="/update-item/:itemUUID" element={<UpdateItemForm />} />
           </Route>
         </Route>
 
