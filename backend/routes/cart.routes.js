@@ -6,9 +6,9 @@ const router = express.Router();
 
 router.post("/", cartController.addToCart);
 
-router.post("/:id", cartController.addSingleItemToCart);
-
 router.post("/checkout", cartController.checkout);
+
+router.post("/:id", cartController.addSingleItemToCart);
 
 router.get("/", cartController.getCartByUserId);
 

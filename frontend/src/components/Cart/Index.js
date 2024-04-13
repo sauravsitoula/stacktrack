@@ -25,22 +25,54 @@ const CartPage = () => {
         calculateTotal(response.data.cartItems);
       })
       .catch((error) => {
+        setLoader(false);
         setModal({
           show: true,
-          title: "No Items Found",
-          message: "You dont have any items in your cart",
+          title: "Empty Cart",
+          message: "No Items Added To Cart",
           type: "failure",
         });
       });
     setLoader(false);
   }, []);
 
-  const updateBackend = async () => {
+  const updateBackend = async (items) => {
     setLoader(true);
-    const payload = { cartItems: cartItems };
-    // const updateCart = await axios.post("/carts", payload);
-    const checkout = await axios.post("/carts/checkout");
+    const itemList = items.map((item) => ({
+      item_uuid: item.item_uuid,
+      quantity: item.quantity,
+    }));
+    const payload = { cartItems: itemList };
+    try {
+      const updateCart = await axios.post("/carts", payload);
+    } catch (error) {
+      setLoader(false);
+      setModal({
+        show: true,
+        title: "Error",
+        message: "Error in Updating Cart",
+        type: "failure",
+      });
+    }
+
     setLoader(false);
+  };
+
+  const checkoutItems = async () => {
+    setLoader(true);
+    try {
+      const checkout = await axios.post("/carts/checkout");
+    } catch (e) {
+      setLoader(false);
+      setModal({
+        show: true,
+        title: "Error",
+        message: "Error in Checking Out",
+        type: "failure",
+      });
+    }
+    setLoader(false);
+    navigate("/");
   };
 
   const calculateTotal = (items) => {
@@ -52,17 +84,16 @@ const CartPage = () => {
   };
 
   const handleRemoveItem = (itemId) => {
-    // Logic to remove item from cart
     const updatedItems = cartItems.filter((item) => item.id !== itemId);
     setCartItems(updatedItems);
     calculateTotal(updatedItems);
+    updateBackend(updatedItems);
   };
 
   const handleIncrement = (itemId) => {
     const updatedItems = cartItems.map((item) => {
       if (item.id === itemId) {
         if (item.quantity < item.item.quantity) {
-          // Only increment if under item stock
           const newQuantity = item.quantity + 1;
           return { ...item, quantity: newQuantity };
         }
@@ -71,6 +102,7 @@ const CartPage = () => {
     });
     setCartItems(updatedItems);
     calculateTotal(updatedItems);
+    updateBackend(updatedItems);
   };
 
   const handleDecrement = (itemId) => {
@@ -83,6 +115,7 @@ const CartPage = () => {
     });
     setCartItems(updatedItems);
     calculateTotal(updatedItems);
+    updateBackend(updatedItems);
   };
 
   return (
@@ -189,7 +222,7 @@ const CartPage = () => {
           </div>
           <h3>Total: ${total.toFixed(2)}</h3>
           {cartItems.length > 0 ? (
-            <button className="btn btn-primary" onClick={updateBackend}>
+            <button className="btn btn-primary" onClick={checkoutItems}>
               PROCEED TO CHECKOUT
             </button>
           ) : (

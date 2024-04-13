@@ -42,3 +42,9 @@
     transform: rotate(360deg);
   }
 }
+
+.all-cart-page-button {
+  text-transform: none;
+  line-height: 18px;
+  border-radius: 10px;
+}

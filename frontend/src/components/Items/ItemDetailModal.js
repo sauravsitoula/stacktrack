@@ -38,7 +38,10 @@ export default function AccommodationDetails(props) {
 
   return (
     <div>
-      <button onClick={handleOpen}> View Details</button>
+      <button className="all-cart-page-button" onClick={handleOpen}>
+        {" "}
+        View Details
+      </button>
       <Modal open={open} onClose={handleClose} id={props.id}>
         <Box sx={style}>
           <div className="parentA">

@@ -40,6 +40,7 @@ export default function Items() {
           message: "Cannot Add Item to Cart",
           type: "failure",
         });
+        setLoader(false);
       });
   };
 
@@ -57,9 +58,14 @@ export default function Items() {
 
           <h3 className="item_price">Price: {"$" + data.price} </h3>
           <h3 className="item_quantity">Stock: {data.quantity} </h3>
-          <div>
+          <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
             <ItemDetailModal id={data.uuid} setItems={setItems} />
-            <button onClick={handleAddToCart(data.uuid)}></button>
+            <button
+              className="all-cart-page-button"
+              onClick={() => handleAddToCart(data.uuid)}
+            >
+              Add to Cart
+            </button>
           </div>
         </div>
       </div>

@@ -17,7 +17,7 @@ const RequireRole = ({ roleName }) => {
   ) : auth?.token ? (
     <Navigate to="/unauthorized" />
   ) : (
-    <Navigate to="/login" />
+    <Navigate to="/sign-in" />
   );
 };
 
