@@ -25,6 +25,17 @@ exports.checkout = async (req, res, next) => {
   }
 };
 
+exports.addSingleItemToCart = async (req, res, next) => {
+  try {
+    await service.addSingleItemToCart(req.user.uuid, req.params.id);
+    res.status(201).json({
+      message: "Item added successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 exports.getCartByUserId = async (req, res, next) => {
   try {
     const categories = await service.getCartByUserId(req.user.uuid);

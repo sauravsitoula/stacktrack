@@ -13,6 +13,7 @@ import CreateItemForm from "./components/Items/CreateItems/CreateItemForm";
 import PersistLogin from "./utils/PersistLogin";
 import UpdateItemForm from "./components/Items/UpdateItems/UpdateItemForm";
 import CartPage from "./components/Cart/Index";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (

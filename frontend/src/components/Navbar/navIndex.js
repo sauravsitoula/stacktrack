@@ -50,7 +50,7 @@ const Navbar = (props) => {
           <NavLink to="/" activeStyle>
             Home
           </NavLink>
-          <NavLink to="/carts" activeStyle>
+          <NavLink to="/cart" activeStyle>
             Cart
           </NavLink>
         </NavMenu>

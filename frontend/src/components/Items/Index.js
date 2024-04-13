@@ -26,6 +26,23 @@ export default function Items() {
       });
   }, []);
 
+  const handleAddToCart = (item_uuid) => {
+    setLoader(true);
+    axios
+      .post(`/carts/${item_uuid}`)
+      .then((response) => {
+        setLoader(false);
+      })
+      .catch((error) => {
+        setModal({
+          show: true,
+          title: "Error",
+          message: "Cannot Add Item to Cart",
+          type: "failure",
+        });
+      });
+  };
+
   if (!items) return null;
 
   const toListItems = items.map((data) => {
@@ -42,6 +59,7 @@ export default function Items() {
           <h3 className="item_quantity">Stock: {data.quantity} </h3>
           <div>
             <ItemDetailModal id={data.uuid} setItems={setItems} />
+            <button onClick={handleAddToCart(data.uuid)}></button>
           </div>
         </div>
       </div>

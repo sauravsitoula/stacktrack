@@ -16,6 +16,31 @@ module.exports.addToCart = async (userId, cartDetails) => {
   }
 };
 
+module.exports.addSingleItemToCart = async (userId, itemUuid) => {
+  try {
+    var cart = await cartRepository.getCartByUserId(userId);
+    if (!cart) {
+      this.addToCart(userId, {
+        cartItems: [{ item_uuid: itemUuid, quantity: 1 }],
+      });
+    } else {
+      const res = await this.getCartByUserId(userId);
+      var currentCart = res.cartItems;
+      var payload = currentCart.map((cartItem) => ({
+        item_uuid: cartItem.item_uuid,
+        quantity: cartItem.quantity,
+      }));
+      var itemExists = payload.find((item) => item.item_uuid === itemUuid);
+      if (!itemExists) {
+        payload.push({ item_uuid: itemUuid, quantity: 1 });
+      }
+      this.addToCart(userId, { cartItems: payload });
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports.checkout = async (userId) => {
   try {
     const cart = await cartRepository.getCartByUserId(userId);
