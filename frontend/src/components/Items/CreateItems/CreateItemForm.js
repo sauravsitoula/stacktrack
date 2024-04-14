@@ -35,6 +35,12 @@ const CreateItemForm = () => {
       })
       .catch((error) => {
         setLoader(false);
+        setModal({
+          show: true,
+          title: "Fetching Categories Error",
+          message: error.response.data.message,
+          type: "failure",
+        });
       });
   }, []);
 
@@ -110,8 +116,14 @@ const CreateItemForm = () => {
           });
           navigate("/");
         })
-        .catch((err) => {
-          console.log(err);
+        .catch((error) => {
+          console.log(error);
+          setModal({
+            show: true,
+            title: "Creating Items Error",
+            message: error.response.data.message,
+            type: "failure",
+          });
         });
     }
   };
@@ -150,7 +162,7 @@ const CreateItemForm = () => {
       ) : (
         <></>
       )}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="create-item-form">
         <label htmlFor="category_uuid">Category</label>
         <select
           name="category_uuid"

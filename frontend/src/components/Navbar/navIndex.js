@@ -35,7 +35,7 @@ const Navbar = (props) => {
 
           {auth.token ? (
             <>
-              <NavBtnLink to="/userprofile">
+              <NavBtnLink to="/user-profile">
                 HI, {auth.user.userName}
               </NavBtnLink>
             </>
@@ -46,14 +46,30 @@ const Navbar = (props) => {
       </Nav1>
       <Nav2>
         <Bars />
-        <NavMenu>
-          <NavLink to="/" activeStyle>
-            Home
-          </NavLink>
-          <NavLink to="/cart" activeStyle>
-            Cart
-          </NavLink>
-        </NavMenu>
+        {auth?.token ? (
+          <NavMenu>
+            <NavLink to="/" activeStyle>
+              Home
+            </NavLink>
+            {!auth?.user?.isAdmin && !auth?.user?.isSuperAdmin ? (
+              <NavLink to="/cart" activeStyle>
+                Cart
+              </NavLink>
+            ) : (
+              <></>
+            )}
+
+            {auth?.user?.isSuperAdmin ? (
+              <NavLink to="/add-admin" activeStyle>
+                Add Admin
+              </NavLink>
+            ) : (
+              <></>
+            )}
+          </NavMenu>
+        ) : (
+          <></>
+        )}
       </Nav2>
     </>
   );

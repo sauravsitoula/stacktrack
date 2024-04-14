@@ -35,6 +35,12 @@ const UpdateItemForm = () => {
       })
       .catch((error) => {
         setLoader(false);
+        setModal({
+          show: true,
+          title: "Fetching Categories Error",
+          message: error.response.data.message,
+          type: "failure",
+        });
       });
   }, []);
 
@@ -117,8 +123,13 @@ const UpdateItemForm = () => {
           });
           navigate("/");
         })
-        .catch((err) => {
-          console.log(err);
+        .catch((error) => {
+          setModal({
+            show: true,
+            title: "Updating Items Error",
+            message: error.response.data.message,
+            type: "failure",
+          });
         });
     }
   };
@@ -157,7 +168,7 @@ const UpdateItemForm = () => {
       ) : (
         <></>
       )}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="update-item-form">
         <label htmlFor="category_uuid">Category</label>
         <select
           name="category_uuid"

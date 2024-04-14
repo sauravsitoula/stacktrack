@@ -7,8 +7,8 @@ const useRefreshToken = () => {
     const refreshToken = localStorage.getItem("refreshToken");
     console.log("getting refresh token", refreshToken);
     const response = await axios.post(
-      // "http://18.118.122.21:3000/auth/refresh",
-      "http://localhost:3001/auth/refresh",
+      "http://18.118.122.21:3000/auth/refresh",
+      // "http://localhost:3001/auth/refresh",
       {
         refreshToken,
       }

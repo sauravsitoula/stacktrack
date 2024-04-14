@@ -13,6 +13,8 @@ import CreateItemForm from "./components/Items/CreateItems/CreateItemForm";
 import PersistLogin from "./utils/PersistLogin";
 import UpdateItemForm from "./components/Items/UpdateItems/UpdateItemForm";
 import CartPage from "./components/Cart/Index";
+import UserProfile from "./components/UserProfile/UserProfile";
+import AdminSignUp from "./components/Authentication/AdminSignup/AdminSignup";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
@@ -27,9 +29,12 @@ function App() {
             <Route path="/" element={<Items />} />
             <Route path="/about" element={<About />} />
             <Route path="/cart" element={<CartPage />} />
+            <Route path="/user-profile" element={<UserProfile />} />
           </Route>
           <Route element={<RequireRole roleName={["isAdmin"]} />}></Route>
-          <Route element={<RequireRole roleName={["isSuperAdmin"]} />}></Route>
+          <Route element={<RequireRole roleName={["isSuperAdmin"]} />}>
+            <Route path="/add-admin" element={<AdminSignUp />} />
+          </Route>
           <Route
             element={<RequireRole roleName={["isAdmin", "isSuperAdmin"]} />}
           >

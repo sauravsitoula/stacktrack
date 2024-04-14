@@ -10,6 +10,7 @@ import Modal from "../commons/Modal/Modal";
 import { Form, FormControl } from "react-bootstrap";
 import SearchImageUploader from "../../utils/SearchImageUploader";
 import { deleteFromFirebase } from "../../utils/UploadFirebase";
+import useAuth from "../../hooks/useAuth";
 
 export default function Items() {
   const [items, setItems] = React.useState(null);
@@ -20,7 +21,10 @@ export default function Items() {
   const [displayReset, setDisplayReset] = useState(false);
   const [imageRef, setImageRef] = useState(null);
   const [imageURL, setImageURL] = useState("");
-  const [category, setCategory] = useState("All Categories");
+  const [categories, setCategories] = useState([]);
+  const [category_uuid, setCategory_uuid] = useState("");
+
+  const { auth } = useAuth();
 
   const handleInputChange = (event) => {
     setQuery(event.target.value);
@@ -39,6 +43,12 @@ export default function Items() {
         })
         .catch((error) => {
           setLoader(false);
+          setModal({
+            show: true,
+            title: "Search Error",
+            message: error.response.data.message,
+            type: "failure",
+          });
         });
     }
     setLoader(false);
@@ -49,6 +59,7 @@ export default function Items() {
     setLoader(true);
     setDisplayReset(false);
     setQuery("");
+    setCategory_uuid("");
     axios
       .get("/items")
       .then((response) => {
@@ -57,6 +68,12 @@ export default function Items() {
       })
       .catch((error) => {
         setLoader(false);
+        setModal({
+          show: true,
+          title: "Fetching Items Error",
+          message: error.response.data.message,
+          type: "failure",
+        });
       });
   };
 
@@ -70,6 +87,27 @@ export default function Items() {
       })
       .catch((error) => {
         setLoader(false);
+        setModal({
+          show: true,
+          title: "Fetching Items Error",
+          message: error.response.data.message,
+          type: "failure",
+        });
+      });
+    axios
+      .get("/categories")
+      .then((response) => {
+        setCategories(response.data);
+        setLoader(false);
+      })
+      .catch((error) => {
+        setLoader(false);
+        setModal({
+          show: true,
+          title: "Fetching Categories Error",
+          message: error.response.data.message,
+          type: "failure",
+        });
       });
   }, []);
 
@@ -105,6 +143,28 @@ export default function Items() {
     deleteFromFirebase(imageRef);
     setQuery(result.data.label);
     setLoader(false);
+  };
+
+  const handleCategoryFilter = (uuid) => {
+    axios
+      .get("/items")
+      .then((response) => {
+        setItems(response.data);
+        setLoader(false);
+        const filteredData = response.data.filter(
+          (item) => item.category_uuid === uuid
+        );
+        setItems(filteredData);
+      })
+      .catch((error) => {
+        setLoader(false);
+        setModal({
+          show: true,
+          title: "Fetching Items Error",
+          message: error.response.data.message,
+          type: "failure",
+        });
+      });
   };
 
   if (!items) return null;
@@ -180,7 +240,7 @@ export default function Items() {
               height: "45px",
               width: "100px",
               position: "relative",
-              top: "5px",
+              top: "0px",
               right: "30px",
               borderRadius: "5px",
             }}
@@ -210,16 +270,37 @@ export default function Items() {
         )}
       </Form>
       <div className="topev">
-        <Button
-          variant="contained"
-          size="large"
-          color="primary"
-          type="submit"
-          component={Link}
-          to="./create-item"
+        <select
+          name="category_uuid"
+          id="category_uuid"
+          value={category_uuid}
+          onChange={(e) => {
+            setCategory_uuid(e.target.value);
+            setDisplayReset(true);
+            handleCategoryFilter(e.target.value);
+          }}
         >
-          Create Item
-        </Button>
+          <option value="">Select a category</option>
+          {categories?.map((category) => (
+            <option key={category.uuid} value={category.uuid}>
+              {category.name}
+            </option>
+          ))}
+        </select>
+        {auth?.user?.isAdmin || auth?.user?.isSuperAdmin ? (
+          <Button
+            variant="contained"
+            size="large"
+            color="primary"
+            type="submit"
+            component={Link}
+            to="./create-item"
+          >
+            Create Item
+          </Button>
+        ) : (
+          <></>
+        )}
       </div>
       <div className="cards">{toListItems}</div>
     </>

@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../commons/Loader/Loader";
-import Modal from "../../commons/Modal/Modal";
-
-import "./Signup.css";
+import "./AdminSignup.css";
 
 function SignupPage() {
   const [formData, setFormData] = useState({
@@ -17,7 +15,6 @@ function SignupPage() {
   });
 
   const [loader, setLoader] = useState(false);
-  const [modal, setModal] = useState({});
 
   const [errors, setErrors] = useState({});
 
@@ -36,20 +33,11 @@ function SignupPage() {
       setLoader(true);
       setFormData({ ...formData, imageURL: "imageURL" });
       axios
-        .post("http://18.118.122.21:3000/auth/register-user", formData)
+        // .post("http://localhost:3001/auth/register-admin", formData)
+        .post("http://18.118.122.21:3000/auth/register-admin", formData)
         .then((response) => {
           setLoader(false);
-          navigate("/sign-in");
-        })
-        .catch((error) => {
-          console.log(error);
-          setLoader(false);
-          setModal({
-            show: true,
-            title: "Registration Error",
-            message: error.response.data.message,
-            type: "failure",
-          });
+          navigate("/");
         });
     }
   };
@@ -103,18 +91,8 @@ function SignupPage() {
 
   return (
     <form class="signup-form" onSubmit={handleSubmit} noValidate>
-      {loader ? <Loader /> : ""}
-      {modal.show ? (
-        <Modal
-          modal={setModal}
-          title={modal.title}
-          message={modal.message}
-          type={modal.type}
-        />
-      ) : (
-        ""
-      )}
-      <h1>Register</h1>
+      {loader ? <Loader></Loader> : ""}
+      <h1>Create New Admin</h1>
       <div class="signup-input-subsection">
         <label htmlFor="userName">Username</label>
         <input
@@ -175,7 +153,7 @@ function SignupPage() {
         {errors.address && <p className="error">{errors.address}</p>}
       </div>
 
-      <button type="submit">Sign Up</button>
+      <button type="submit">Add</button>
     </form>
   );
 }

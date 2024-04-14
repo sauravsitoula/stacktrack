@@ -55,7 +55,7 @@ const ImageUploader = ({ setImageURL, setImageRef }) => {
         backgroundSize: "cover", // Make the background image cover the entire container
         backgroundPosition: "center", // Center the background image
         position: "relative",
-        top: "8px",
+        top: "3px",
         right: "42px",
       }}
       className="container"

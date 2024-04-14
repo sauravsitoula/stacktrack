@@ -8,16 +8,16 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-form {
+.create-item-form {
   display: flex;
   flex-direction: column;
 }
 
-label {
+.create-item-form label {
   margin-top: 1rem;
 }
 
-input[type="text"],
+.create-item-form input[type="text"],
 select,
 textarea {
   padding: 0.5rem;
