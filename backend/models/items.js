@@ -25,14 +25,14 @@ module.exports = (sequelize) => {
         },
       },
       price: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
         validate: {
           notEmpty: true,
         },
       },
       description: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false,
         validate: {
           notEmpty: true,

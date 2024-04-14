@@ -136,7 +136,7 @@ export default function Items() {
   const handleCallMLModel = async () => {
     setLoader(true);
 
-    const result = await axiosNormal.post("http://18.116.24.135:8000/predict", {
+    const result = await axiosNormal.post("http://18.117.12.19:8000/predict", {
       image_url: imageURL,
     });
 
@@ -257,7 +257,7 @@ export default function Items() {
                 height: "45px",
                 width: "100px",
                 position: "relative",
-                top: "5px",
+                top: "0px",
                 right: "20px",
                 borderRadius: "5px",
               }}
