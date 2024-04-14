@@ -1,5 +1,10 @@
 import { v4 } from "uuid";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import {
+  getDownloadURL,
+  ref,
+  uploadBytes,
+  deleteObject,
+} from "firebase/storage";
 import { storage } from "./Firebase";
 
 export const uploadToFirebase = async (image) => {
@@ -14,4 +19,13 @@ export const uploadToFirebase = async (image) => {
   }
 
   return downloadingURL;
+};
+
+export const deleteFromFirebase = async (imageRef) => {
+  try {
+    await deleteObject(imageRef);
+    console.log("File deleted successfully");
+  } catch (error) {
+    console.error("Error deleting image:", error);
+  }
 };

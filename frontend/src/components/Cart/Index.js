@@ -21,8 +21,17 @@ const CartPage = () => {
     axios
       .get("/carts")
       .then((response) => {
+        if (response.data.cartItems.length == 0) {
+          setModal({
+            show: true,
+            title: "Empty Cart",
+            message: "No Items Added To Cart",
+            type: "failure",
+          });
+        }
         setCartItems(response.data.cartItems);
         calculateTotal(response.data.cartItems);
+        setLoader(false);
       })
       .catch((error) => {
         setLoader(false);

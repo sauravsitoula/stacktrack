@@ -1,17 +1,64 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import axiosNormal from "axios";
 import Button from "@mui/material/Button";
 import "./Styles/Items.css";
 import ItemDetailModal from "./ItemDetailModal";
 import { Link } from "react-router-dom";
 import Loader from "../commons/Loader/Loader";
 import Modal from "../commons/Modal/Modal";
+import { Form, FormControl } from "react-bootstrap";
+import SearchImageUploader from "../../utils/SearchImageUploader";
+import { deleteFromFirebase } from "../../utils/UploadFirebase";
 
 export default function Items() {
   const [items, setItems] = React.useState(null);
   const [loader, setLoader] = useState(false);
   const [modal, setModal] = useState({});
   const axios = useAxiosPrivate();
+  const [query, setQuery] = useState("");
+  const [displayReset, setDisplayReset] = useState(false);
+  const [imageRef, setImageRef] = useState(null);
+  const [imageURL, setImageURL] = useState("");
+  const [category, setCategory] = useState("All Categories");
+
+  const handleInputChange = (event) => {
+    setQuery(event.target.value);
+  };
+
+  const handleSearch = (event) => {
+    event.preventDefault();
+    setLoader(true);
+    setDisplayReset(true);
+    if (query) {
+      axios
+        .get("/items/search?name=" + query)
+        .then((response) => {
+          setItems(response.data.items);
+          setLoader(false);
+        })
+        .catch((error) => {
+          setLoader(false);
+        });
+    }
+    setLoader(false);
+  };
+
+  const handleReset = (e) => {
+    e.preventDefault();
+    setLoader(true);
+    setDisplayReset(false);
+    setQuery("");
+    axios
+      .get("/items")
+      .then((response) => {
+        setItems(response.data);
+        setLoader(false);
+      })
+      .catch((error) => {
+        setLoader(false);
+      });
+  };
 
   React.useEffect(() => {
     setLoader(true);
@@ -42,6 +89,22 @@ export default function Items() {
         });
         setLoader(false);
       });
+  };
+
+  useEffect(() => {
+    if (imageURL != null && imageURL != "") handleCallMLModel();
+  }, [imageURL]);
+
+  const handleCallMLModel = async () => {
+    setLoader(true);
+
+    const result = await axiosNormal.post("http://18.116.24.135:8000/predict", {
+      image_url: imageURL,
+    });
+
+    deleteFromFirebase(imageRef);
+    setQuery(result.data.label);
+    setLoader(false);
   };
 
   if (!items) return null;
@@ -85,6 +148,67 @@ export default function Items() {
       ) : (
         ""
       )}
+      <Form
+        inline
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          width: "500px",
+          position: "absolute",
+          marginTop: "20px",
+          marginLeft: "38%",
+        }}
+      >
+        <FormControl
+          type="text"
+          placeholder="Search"
+          className="mr-sm-2"
+          value={query}
+          onChange={handleInputChange}
+        />
+        <div>
+          <SearchImageUploader
+            setImageURL={setImageURL}
+            setImageRef={setImageRef}
+          ></SearchImageUploader>
+        </div>
+        <div>
+          <button
+            onClick={handleSearch}
+            style={{
+              backgroundColor: "blue",
+              height: "45px",
+              width: "100px",
+              position: "relative",
+              top: "5px",
+              right: "30px",
+              borderRadius: "5px",
+            }}
+          >
+            Search
+          </button>
+        </div>
+        {displayReset ? (
+          <div>
+            <button
+              onClick={handleReset}
+              style={{
+                backgroundColor: "red",
+                height: "45px",
+                width: "100px",
+                position: "relative",
+                top: "5px",
+                right: "20px",
+                borderRadius: "5px",
+              }}
+            >
+              Clear
+            </button>
+          </div>
+        ) : (
+          <></>
+        )}
+      </Form>
       <div className="topev">
         <Button
           variant="contained"
